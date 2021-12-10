@@ -1,0 +1,8 @@
+server:
+  port: 1001
+spring:
+  elasticsearch:
+    rest:
+      uris: http://localhost:9200 #elasticsearch服务地址
+      read-timeout: 1000 #读取超时时间
+      connection-timeout: 1000 #连接超时时间

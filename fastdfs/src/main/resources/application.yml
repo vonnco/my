@@ -1,0 +1,17 @@
+server:
+  port: 1003
+spring:
+  application:
+    name: fdfs-service
+  servlet:
+    multipart: #\u8BF7\u6C42\u6587\u4EF6\u5927\u5C0F
+      max-file-size: 1MB
+      max-request-size: 1MB
+fdfs:
+  so-timeout: 1500 #\u8BFB\u53D6\u65F6\u95F4
+  connect-timeout: 600 #\u8FDE\u63A5\u8D85\u65F6\u65F6\u95F4
+  thumb-image: # \u7F29\u7565\u56FE
+    width: 150
+    height: 150
+  web-server-url: 127.0.0.1:8888/ #\u524D\u7F00
+  tracker-list: 127.0.0.1:22122
