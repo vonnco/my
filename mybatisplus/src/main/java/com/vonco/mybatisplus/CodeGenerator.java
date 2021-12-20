@@ -30,7 +30,7 @@ public class CodeGenerator {
     public static void main(String[] args) {
         FastAutoGenerator.create(
                 //数据库配置
-                new DataSourceConfig.Builder("jdbc:mysql://192.168.0.251:3306/do_garbage","root","mysql#2020")
+                new DataSourceConfig.Builder("jdbc:mysql://localhost:3306/base_data","root","123456")
                         //.dbQuery(new MySqlQuery()) // 数据库查询
                         //.schema("mybatis-plus") // 数据库schema(部分数据库适用)
                         //.typeConvert(new MySqlTypeConvert()) // 数据库类型转换器
@@ -45,7 +45,7 @@ public class CodeGenerator {
                             //.enableKotlin() // 开启 kotlin 模式
                             .dateType(DateType.ONLY_DATE) // 时间策略
                             .commentDate("yyyy-MM-dd") // 注释日期
-                            .outputDir("D:/projects/city_management_platform/citymanagementplatform/garbage-project/do-garbage/src/main/java"); // 指定输出目录
+                            .outputDir("D:\\projects\\city_management_platform\\citymanagementplatform\\web-project\\base-data\\src\\main\\java"); // 指定输出目录
                 })
                 //模板配置
                 /*.templateConfig(builder -> {
@@ -69,7 +69,7 @@ public class CodeGenerator {
                 //包配置
                 .packageConfig(builder -> {
                     builder.parent("com.xt.cloud") // 设置父包名
-                            .moduleName("dogarbage") // 设置父包模块名
+                            .moduleName("basedata") // 设置父包模块名
                             .entity("entity.po") // Entity 包名
                             .service("service") // Service 包名
                             .serviceImpl("service.impl") // Service Impl 包名
