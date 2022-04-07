@@ -1,17 +1,19 @@
 package com.vonco.easyexcel.util;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.read.listener.ReadListener;
+import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.alibaba.excel.write.handler.WriteHandler;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.google.common.collect.Lists;
-import com.vonco.easyexcel.domain.User;
-import com.vonco.easyexcel.listener.UserReadListener;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -219,7 +221,7 @@ public class EasyExcelUtil {
     }
 
     /**
-     * 导入
+     * 导入（一个对象）
      * @param filePath 输入路径
      * @param head 头
      * @param readListener 监听
@@ -229,12 +231,84 @@ public class EasyExcelUtil {
     }
 
     /**
-     * 导入
+     * 导入（一个对象）
      * @param inputStream 输入流
      * @param head 头
      * @param readListener 监听
      */
     public static void read(InputStream inputStream, Class head, ReadListener readListener){
         EasyExcel.read(inputStream, head,readListener).doReadAll();
+    }
+
+    /**
+     * 导入（多个对象）
+     * @param filePath 输入路径
+     * @param map
+     */
+    public static void read(String filePath, Map<Integer, Map<Class,Set<ReadListener>>> map){
+        //定义ExcelReader
+        ExcelReader excelReader = null;
+        //定义ReadSheet集合
+        List<ReadSheet> readSheetList = new ArrayList<>();
+        try {
+            //构建ExcelReader
+            excelReader = EasyExcel.read(filePath).build();
+            for (Map.Entry<Integer, Map<Class, Set<ReadListener>>> integerMapEntry : map.entrySet()) {
+                //获取sheet编号
+                Integer sheetNo = integerMapEntry.getKey();
+                for (Map.Entry<Class, Set<ReadListener>> classSetEntry : integerMapEntry.getValue().entrySet()) {
+                    //构建ExcelReaderSheetBuilder
+                    ExcelReaderSheetBuilder excelReaderSheetBuilder = EasyExcel.readSheet(sheetNo).head(classSetEntry.getKey());
+                    //添加策略
+                    for (ReadListener readListener : classSetEntry.getValue()) {
+                        excelReaderSheetBuilder.registerReadListener(readListener);
+                    }
+                    //构建ReadSheet添加进集合
+                    readSheetList.add(excelReaderSheetBuilder.build());
+                }
+            }
+            excelReader.read(readSheetList);
+        } finally {
+            //关闭ExcelReader流
+            if (excelReader != null) {
+                excelReader.finish();
+            }
+        }
+    }
+
+    /**
+     * 导入（多个对象）
+     * @param inputStream 输入流
+     * @param map
+     */
+    public static void read(InputStream inputStream, Map<Integer, Map<Class,Set<ReadListener>>> map){
+        //定义ExcelReader
+        ExcelReader excelReader = null;
+        //定义ReadSheet集合
+        List<ReadSheet> readSheetList = new ArrayList<>();
+        try {
+            //构建ExcelReader
+            excelReader = EasyExcel.read(inputStream).build();
+            for (Map.Entry<Integer, Map<Class, Set<ReadListener>>> integerMapEntry : map.entrySet()) {
+                //获取sheet编号
+                Integer sheetNo = integerMapEntry.getKey();
+                for (Map.Entry<Class, Set<ReadListener>> classSetEntry : integerMapEntry.getValue().entrySet()) {
+                    //构建ExcelReaderSheetBuilder
+                    ExcelReaderSheetBuilder excelReaderSheetBuilder = EasyExcel.readSheet(sheetNo).head(classSetEntry.getKey());
+                    //添加策略
+                    for (ReadListener readListener : classSetEntry.getValue()) {
+                        excelReaderSheetBuilder.registerReadListener(readListener);
+                    }
+                    //构建ReadSheet添加进集合
+                    readSheetList.add(excelReaderSheetBuilder.build());
+                }
+            }
+            excelReader.read(readSheetList);
+        } finally {
+            //关闭ExcelReader流
+            if (excelReader != null) {
+                excelReader.finish();
+            }
+        }
     }
 }

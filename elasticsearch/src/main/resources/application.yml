@@ -1,6 +1,8 @@
 server:
   port: 1001
 spring:
+  application:
+    name: elasticsearch-service
   elasticsearch:
     rest:
       uris: http://localhost:9200 #elasticsearch服务地址

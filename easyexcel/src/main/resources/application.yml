@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: easyexcel-service
   datasource:
     druid:
       url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
