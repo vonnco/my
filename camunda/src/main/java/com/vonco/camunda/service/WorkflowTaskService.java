@@ -65,4 +65,11 @@ public interface WorkflowTaskService {
      * @return
      */
     List<Comment> getComment(String taskId);
+
+    /**
+     * 撤回任务
+     * @param taskRequest
+     * @return
+     */
+    Boolean recallTask(TaskRequest taskRequest);
 }

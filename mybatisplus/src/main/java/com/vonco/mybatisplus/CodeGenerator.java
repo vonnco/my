@@ -1,21 +1,10 @@
 package com.vonco.mybatisplus;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.baomidou.mybatisplus.generator.config.TemplateType;
-import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
-import com.baomidou.mybatisplus.generator.config.po.LikeTable;
-import com.baomidou.mybatisplus.generator.config.querys.MySqlQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
-import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.baomidou.mybatisplus.generator.fill.Column;
-import com.baomidou.mybatisplus.generator.fill.Property;
-import com.baomidou.mybatisplus.generator.keywords.MySqlKeyWordsHandler;
 
 import java.util.Collections;
 
@@ -30,7 +19,7 @@ public class CodeGenerator {
     public static void main(String[] args) {
         FastAutoGenerator.create(
                 //数据库配置
-                new DataSourceConfig.Builder("jdbc:mysql://localhost:3306/base_data","root","123456")
+                new DataSourceConfig.Builder("jdbc:mysql://192.168.0.251:3306/base_data","root","mysql#2020")
                         //.dbQuery(new MySqlQuery()) // 数据库查询
                         //.schema("mybatis-plus") // 数据库schema(部分数据库适用)
                         //.typeConvert(new MySqlTypeConvert()) // 数据库类型转换器
@@ -77,13 +66,13 @@ public class CodeGenerator {
                             .controller("controller") // Controller 包名
                             //.xml("mapper.xml") // Mapper XML 包名
                             //.other("other") // 自定义文件包名
-                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D:/projects/city_management_platform/citymanagementplatform/garbage-project/do-garbage/src/main/resources/mapper")); // 路径配置信息
+                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D:\\projects\\city_management_platform\\citymanagementplatform\\web-project\\base-data\\src\\main\\resources\\mapper")); // 路径配置信息
                 })
                 // 策略配置
                 .strategyConfig(builder -> {
-                    builder.addInclude("garbage_weight_report_detail") // 设置需要生成的表名
+                    builder.addInclude("component_booth_relation") // 设置需要生成的表名
                             //.addExclude("t_simple") // 增加表排除匹配(内存过滤)
-                            //.addTablePrefix("t_") // 增加过滤表前缀
+                            //.addTablePrefix("base_") // 增加过滤表前缀
                             //.addTableSuffix("_t") // 增加过滤表后缀
                             //.addFieldPrefix("t_") // 增加过滤字段前缀
                             //.addFieldSuffix("_2021") // 增加过滤字段后缀
@@ -94,12 +83,12 @@ public class CodeGenerator {
                             //.likeTable(new LikeTable("USER")) // 模糊表匹配(sql 过滤)
                             //.notLikeTable(new LikeTable("USER")) // 模糊表排除(sql 过滤)
 
-                            //.entityBuilder() // 实体策略配置
+                            .entityBuilder() // 实体策略配置
                             //.superClass(BaseEntity.class) // 设置父类
                             //.disableSerialVersionUID() // 禁用生成 serialVersionUID
                             //.enableColumnConstant() // 开启生成字段常量
-                            //.enableChainModel() // 开启链式模型
-                            //.enableLombok() // 开启 lombok 模型
+                            .enableChainModel() // 开启链式模型
+                            .enableLombok() // 开启 lombok 模型
                             //.enableRemoveIsPrefix() // 开启 Boolean 类型字段移除 is 前缀
                             //.enableTableFieldAnnotation() // 开启生成实体时生成字段注解
                             //.enableActiveRecord() // 开启 ActiveRecord 模型

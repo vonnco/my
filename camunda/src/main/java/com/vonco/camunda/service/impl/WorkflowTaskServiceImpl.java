@@ -5,7 +5,10 @@ import com.vonco.camunda.model.TaskAttachment;
 import com.vonco.camunda.model.TaskComment;
 import com.vonco.camunda.model.TaskRequest;
 import com.vonco.camunda.service.WorkflowTaskService;
+import org.camunda.bpm.engine.HistoryService;
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.history.HistoricActivityInstance;
 import org.camunda.bpm.engine.task.Attachment;
 import org.camunda.bpm.engine.task.Comment;
 import org.camunda.bpm.engine.task.Task;
@@ -26,6 +29,10 @@ import java.util.List;
 public class WorkflowTaskServiceImpl implements WorkflowTaskService {
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private HistoryService historyService;
+    @Autowired
+    private RuntimeService runtimeService;
 
     @Override
     public List<Task> getTask(TaskRequest taskRequest) {
@@ -167,5 +174,29 @@ public class WorkflowTaskServiceImpl implements WorkflowTaskService {
     @Override
     public List<Comment> getComment(String taskId) {
         return taskService.getTaskComments(taskId);
+    }
+
+    /**
+     * 撤回任务
+     * @param taskRequest
+     * @return
+     */
+    @Override
+    public Boolean recallTask(TaskRequest taskRequest) {
+        Task task = taskService.createTaskQuery()
+                .processInstanceId(taskRequest.getProcessInstanceId())
+                //.processInstanceBusinessKey(taskRequest.getBusinessKey())
+                .singleResult();
+        List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId(task.getProcessInstanceId())
+                .finished()
+                .orderByHistoricActivityInstanceEndTime()
+                .desc()
+                .list();
+        runtimeService.createProcessInstanceModification(task.getProcessInstanceId())
+                .cancelAllForActivity(task.getTaskDefinitionKey())
+                .startBeforeActivity(list.get(0).getActivityId())
+                .execute();
+        return true;
     }
 }
