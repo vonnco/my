@@ -61,7 +61,7 @@ public class WorkflowHistoryServiceImpl implements WorkflowHistoryService {
         }
         //query.activityType("userTask");
         query.canceled();
-        query.orderByHistoricActivityInstanceEndTime().asc();
+        query.orderByHistoricActivityInstanceStartTime().asc();
         List<HistoricActivityInstance> historicActivityInstances = query.list();
         return historicActivityInstances;
     }

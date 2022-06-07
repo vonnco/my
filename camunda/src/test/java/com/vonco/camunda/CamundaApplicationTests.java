@@ -7,12 +7,9 @@ import com.vonco.camunda.service.WorkflowTaskService;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.task.IdentityLink;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 class CamundaApplicationTests {
@@ -56,17 +53,18 @@ class CamundaApplicationTests {
         //processInstanceService.deleteProcessInstance(processInstanceRequest);
         //runtimeService.setVariable("4db633da-ab12-11ec-977b-7c10c9d08684","days",2);
         //TaskRequest taskRequest = new TaskRequest();
-        //taskRequest.setTaskId("fb5fca61-c5ee-11ec-afad-7c10c9d08684");
+        //taskRequest.setTaskId("d49988d0-c5ef-11ec-9dfe-7c10c9d08684");
         /*Map<String,Object> map = new HashMap<>();
         map.put("agree",true);
         taskRequest.setVariables(map);*/
-        //taskRequest.setTaskAssignee("部门经理");
+        //taskRequest.setTaskAssignee("张三");
         //List<Task> task = workflowTaskService.getTask(taskRequest);
         //workflowTaskService.complete(taskRequest);
         //processInstanceService.suspendProcessInstance("8a8109c0-ab18-11ec-97c8-7c10c9d08684");
        /* HistoryRequest historyRequest = new HistoryRequest();
-        historyRequest.setProcessInstanceId("6a704523-ab18-11ec-855a-7c10c9d08684");
-        List<HistoricActivityInstance> historicActivityInstances = workflowHistoryService.getHistoricActivityInstance(historyRequest);*/
+        historyRequest.setProcessInstanceId("fb5e1cae-c5ee-11ec-afad-7c10c9d08684");
+        List<HistoricActivityInstance> historicActivityInstances = workflowHistoryService.getHistoricActivityInstance(historyRequest);
+        System.out.println(historicActivityInstances);*/
         /*List<HistoricActivityInstance> unfinishs = historyService.createHistoricActivityInstanceQuery()
                 .processInstanceId("6a704523-ab18-11ec-855a-7c10c9d08684")
                 .unfinished()
@@ -82,8 +80,15 @@ class CamundaApplicationTests {
        //taskRequest.setProcessInstanceId("dfb34c73-b63e-11ec-9cd8-7c10c9d08684");
         //Boolean aBoolean = workflowTaskService.recallTask(taskRequest);
         //String s = deploymentService.downloadProcessResource("50");
-        List<IdentityLink> identityLinksForTask = taskService.getIdentityLinksForTask("d49988d0-c5ef-11ec-9dfe-7c10c9d08684");
-        System.out.println(identityLinksForTask);
+        /*List<IdentityLink> identityLinksForTask = taskService.getIdentityLinksForTask("d49988d0-c5ef-11ec-9dfe-7c10c9d08684");
+        System.out.println(identityLinksForTask);*/
+        /*runtimeService.createProcessInstanceModification("d497b40d-c5ef-11ec-9dfe-7c10c9d08684")
+                .cancelAllForActivity("Activity_1x8k7gv")
+                .cancelAllForActivity("Activity_0012f5n")
+                .startBeforeActivity("Activity_0012f5n")
+                .execute();*/
+        runtimeService.deleteProcessInstance("d497b40d-c5ef-11ec-9dfe-7c10c9d08684","测试删除");
+        historyService.deleteHistoricProcessInstance("d497b40d-c5ef-11ec-9dfe-7c10c9d08684");
     }
 
 }

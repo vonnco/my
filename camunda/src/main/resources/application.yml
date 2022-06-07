@@ -34,3 +34,7 @@ camunda:
     #\u7981\u6B62index\u8DF3\u8F6C\u5230Camunda\u81EA\u5E26\u7684\u7BA1\u7406\u754C\u9762\uFF0C\u9ED8\u8BA4true
     webapp:
       index-redirect-enabled: true
+logging:
+  level:
+    #debug级别可以打印执行Sql
+    org.camunda: debug
