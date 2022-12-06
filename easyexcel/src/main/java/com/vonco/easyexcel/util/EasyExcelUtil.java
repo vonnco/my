@@ -195,6 +195,7 @@ public class EasyExcelUtil {
                     //获取头
                     Class head = classListEntry.getKey();
                     //构建ExcelWriterSheetBuilder
+                    //sheetName重复导出会覆盖
                     ExcelWriterSheetBuilder excelWriterSheetBuilder = EasyExcel.writerSheet(sheetName).head(head);
                     //添加策略
                     if (handlers != null) {

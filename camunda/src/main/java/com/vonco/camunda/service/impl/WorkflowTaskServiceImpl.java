@@ -61,33 +61,33 @@ public class WorkflowTaskServiceImpl implements WorkflowTaskService {
                 switch (condition.getConditionType()) {
                     case "eq":
                         if (condition.getVariableType() == 0) {
-                            query.taskVariableValueEquals(condition.getVariableName(),condition.getVariableName());
+                            query.taskVariableValueEquals(condition.getVariableName(),condition.getVariableValue());
                         } else {
-                            query.processVariableValueEquals(condition.getVariableName(),condition.getVariableName());
+                            query.processVariableValueEquals(condition.getVariableName(),condition.getVariableValue());
                         }
                     case "like":
                         if (condition.getVariableType() == 0) {
-                            query.taskVariableValueLike(condition.getVariableName(),condition.getVariableName());
+                            query.taskVariableValueLike(condition.getVariableName(),condition.getVariableValue().toString());
                         } else {
-                            query.processVariableValueLike(condition.getVariableName(),condition.getVariableName());
+                            query.processVariableValueLike(condition.getVariableName(),condition.getVariableValue().toString());
                         }
                     case "ge":
                         if (condition.getVariableType() == 0) {
-                            query.taskVariableValueGreaterThanOrEquals(condition.getVariableName(),condition.getVariableName());
+                            query.taskVariableValueGreaterThanOrEquals(condition.getVariableName(),condition.getVariableValue());
                         } else {
-                            query.processVariableValueGreaterThanOrEquals(condition.getVariableName(),condition.getVariableName());
+                            query.processVariableValueGreaterThanOrEquals(condition.getVariableName(),condition.getVariableValue());
                         }
                     case "le":
                         if (condition.getVariableType() == 0) {
-                            query.taskVariableValueLessThanOrEquals(condition.getVariableName(),condition.getVariableName());
+                            query.taskVariableValueLessThanOrEquals(condition.getVariableName(),condition.getVariableValue());
                         } else {
-                            query.processVariableValueLessThanOrEquals(condition.getVariableName(),condition.getVariableName());
+                            query.processVariableValueLessThanOrEquals(condition.getVariableName(),condition.getVariableValue());
                         }
                     case "in":
                         if (condition.getVariableType() == 0) {
-                            query.taskVariableValueEquals(condition.getVariableName(),condition.getVariableName());
+                            query.taskVariableValueEquals(condition.getVariableName(),condition.getVariableValue());
                         } else {
-                            query.processVariableValueEquals(condition.getVariableName(),condition.getVariableName());
+                            query.processVariableValueEquals(condition.getVariableName(),condition.getVariableValue());
                         }
                     default:
                         break;

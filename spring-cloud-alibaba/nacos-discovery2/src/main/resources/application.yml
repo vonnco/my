@@ -1,0 +1,47 @@
+server:
+  port: 18082 # \u670D\u52A1\u7AEF\u53E3\u53F7
+spring:
+  application:
+    name: nacos-discovery2 # \u670D\u52A1\u540D\u79F0
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 # nacos\u670D\u52A1\u5730\u5740
+    stream:
+      #RocketMQ 通用配置
+      rocketmq:
+        binder:
+          name-server: 127.0.0.1:9876 #客户端接入点，必填  rocketMQ的连接地址，binder高度抽象
+          group: rocketmq-group # 不加, 会报错：Property 'group' is required - producerGroup
+        bindings:
+          input1: # 与 spring.cloud.stream.bindings.input1对应上
+            consumer:
+              orderly: true # 顺序
+          input2: # 与 spring.cloud.stream.bindings.input2对应上
+            consumer:
+              orderly: false # 异步
+              subscription: tagStr||look # 基于 Tag 订阅，多个 Tag 使用 || 分隔，默认为空
+      #bindings 具体生产消息、消费消息的桥梁
+      bindings:
+        input1:
+          destination: test-topic1
+          content-type: text/plain
+          group: test-group1
+        input2:
+          destination: test-topic1
+          content-type: text/plain
+          group: test-group2
+        input3:
+          destination: test-topic2
+          content-type: text/plain
+          group: test-group3
+feign:
+  client:
+    config:
+      default: # \u8FD9\u91CC\u7528default\u5C31\u662F\u5168\u5C40\u914D\u7F6E\uFF0C\u5982\u679C\u662F\u5199\u670D\u52A1\u540D\u79F0\uFF0C\u5219\u662F\u9488\u5BF9\u67D0\u4E2A\u5FAE\u670D\u52A1\u7684\u914D\u7F6E
+        loggerLevel: FULL # \u65E5\u5FD7\u7EA7\u522B
+        connectTimeout: 3000 # \u8FDE\u63A5\u8D85\u65F6\u65F6\u95F4
+        readTimeout: 5000 # \u8BFB\u53D6\u8D85\u65F6\u65F6\u95F4
+logging:
+  level:
+    com.alibaba.cloud.stream.binder.rocketmq: info
