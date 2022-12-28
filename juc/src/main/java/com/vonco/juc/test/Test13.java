@@ -17,78 +17,78 @@ public class Test13 {
         MessageQueue messageQueue = new MessageQueue(2);
         for (int i = 0; i < 3; i++) {
             Message message = new Message(i, "内容：" + i);
-            new Thread(()->{
+            new Thread(() -> {
                 messageQueue.put(message);
             },"生产者"+i).start();
         }
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        new Thread(()->{
+        new Thread(() -> {
             messageQueue.take();
         },"消费者").start();
     }
 }
 
 @Slf4j(topic = "c.MessageQueue")
-class MessageQueue{
-    private LinkedList<Message> list = new LinkedList();
+class MessageQueue {
+    private LinkedList<Message> messages = new LinkedList<>();
     private int capacity;
 
-    public MessageQueue(int capacity) {
+    public MessageQueue(int capacity){
         this.capacity = capacity;
     }
 
     public Message take(){
-        synchronized (list) {
-            while (list.isEmpty()) {
+        synchronized (messages) {
+            while (messages.isEmpty()) {
                 try {
-                    log.debug("队列为空，消费者等待");
-                    list.wait();
+                    log.debug("消息队列为空，等待");
+                    messages.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
             log.debug("消费者消费消息");
-            Message message = list.removeFirst();
-            list.notifyAll();
+            Message message = messages.removeFirst();
+            messages.notifyAll();
             return message;
         }
     }
 
     public void put(Message message){
-        synchronized (list) {
-            while (list.size() == capacity) {
+        synchronized (messages) {
+            while (messages.size() == capacity) {
                 try {
-                    log.debug("队列已满，生产者等待");
-                    list.wait();
+                    log.debug("消息队列已满，等待");
+                    messages.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
             log.debug("生产者生产消息");
-            list.addLast(message);
-            list.notifyAll();
+            messages.addLast(message);
+            messages.notifyAll();
         }
     }
 }
 
-final class Message{
+final class Message {
     private int id;
-    private Object data;
+    private Object object;
 
-    public Message(int id, Object data) {
+    public Message(int id,Object object) {
         this.id = id;
-        this.data = data;
+        this.object = object;
     }
 
     public int getId() {
         return id;
     }
 
-    public Object getData() {
-        return data;
+    public Object getObject() {
+        return object;
     }
 }

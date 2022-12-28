@@ -17,6 +17,11 @@ public class Test14 {
     public static void main(String[] args) {
         Thread t1 = new Thread(()->{
             log.debug("开始了。。。。");
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             LockSupport.park();
             log.debug("结束了");
         },"t1");

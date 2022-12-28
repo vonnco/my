@@ -16,38 +16,39 @@ import java.util.concurrent.TimeUnit;
 public class Test11 {
     public static void main(String[] args) {
         CommonObject commonObject = new CommonObject();
-        new Thread(()->{
+        new Thread(() -> {
             log.debug("设置值");
             try {
                 TimeUnit.SECONDS.sleep(1);
                 commonObject.complete(null);
                 TimeUnit.SECONDS.sleep(1);
-                commonObject.complete(Arrays.asList("a","b","c"));
+                commonObject.complete(Arrays.asList("1","2","3"));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        },"t2").start();
-        new Thread(()->{
-            log.debug("获取值");
-            Object list = commonObject.getObject(1500);
-            if (list == null) {
-                log.debug("没有获取到值");
-            } else {
-                log.debug("{}",list);
-            }
         },"t1").start();
+        new Thread(() -> {
+            log.debug("获取值");
+            Object object = commonObject.getObject(2500);
+            if (object == null) {
+                log.debug("未获取到值");
+            } else {
+                log.debug("获取到值：{}",object);
+            }
+        },"t2").start();
     }
 }
 
 class CommonObject{
+
     private Object object;
 
-    public Object getObject(long time){
+    public Object getObject(long time) {
         synchronized (this) {
-            long begin = System.currentTimeMillis();
-            long passedTime = 0;
+            long beginTime = System.currentTimeMillis();
+            long passTime = 0;
             while (object == null) {
-                long waitTime = time - passedTime;
+                long waitTime = time - passTime;
                 if (waitTime <= 0) {
                     break;
                 }
@@ -56,10 +57,10 @@ class CommonObject{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                passedTime = System.currentTimeMillis() - begin;
+                passTime = System.currentTimeMillis() - beginTime;
             }
+            return object;
         }
-        return object;
     }
 
     public void complete(Object object){

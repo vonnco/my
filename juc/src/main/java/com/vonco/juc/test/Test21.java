@@ -13,10 +13,8 @@ import java.util.concurrent.locks.LockSupport;
  */
 @Slf4j(topic = "c.Test21")
 public class Test21 {
-
     static boolean t2Run = false;
     static Object object = new Object();
-
     public static void main(String[] args) {
         /*Thread t1 = new Thread(() -> {
             synchronized (object) {
@@ -50,5 +48,6 @@ public class Test21 {
         }, "t2");
         t1.start();
         t2.start();
+
     }
 }

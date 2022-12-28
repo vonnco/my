@@ -17,11 +17,11 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j(topic = "c.Test22")
 public class Test22 {
     public static void main(String[] args) {
-        /*SyncWait syncWait = new SyncWait(1, 5);
+        SyncWait syncWait = new SyncWait(1, 5);
         new Thread(()->{syncWait.print("c",3,1);},"t3").start();
         new Thread(()->{syncWait.print("b",2,3);},"t2").start();
-        new Thread(()->{syncWait.print("a",1,2);},"t1").start();*/
-        /*SyncAwait syncAwait = new SyncAwait(5);
+        new Thread(()->{syncWait.print("a",1,2);},"t1").start();
+        SyncAwait syncAwait = new SyncAwait(5);
         Condition condition1 = syncAwait.newCondition();
         Condition condition2 = syncAwait.newCondition();
         Condition condition3 = syncAwait.newCondition();
@@ -33,7 +33,7 @@ public class Test22 {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        syncAwait.start(condition1);*/
+        syncAwait.start(condition1);
         SyncPark syncPark = new SyncPark(5);
         Thread t1 = new Thread(() -> {
             syncPark.print("a");

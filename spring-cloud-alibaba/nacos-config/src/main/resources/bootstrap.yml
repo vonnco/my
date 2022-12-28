@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: nacos-config # \u670D\u52A1\u540D\u79F0
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848 # Nacos\u670D\u52A1\u5730\u5740
+        file-extension: yaml
+        shared-configs: # \u5171\u4EAB\u914D\u7F6E\u6587\u4EF6
+          - data-id: all-service.yaml
+            group: DEFAULT_GROUP
+            refresh: true # \u662F\u5426\u52A8\u6001\u5237\u65B0
+  profiles:
+    active: dev # \u73AF\u5883\u6807\u8BC6
+

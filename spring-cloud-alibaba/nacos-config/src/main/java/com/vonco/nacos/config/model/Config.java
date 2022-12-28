@@ -13,10 +13,8 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "spring.cloud.nacos.config")
+@ConfigurationProperties(prefix = "config")
 public class Config {
-    private String serverAddr;
-    private String prefix;
-    private String group;
-    private String namespace;
+    private String name;
+    private String type;
 }
