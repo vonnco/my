@@ -15,8 +15,8 @@ public interface MySink {
     @Input(MySink.INPUT2)
     SubscribableChannel input2();
 
-    String INPUT3 = "input3";
+    String CONSUMER_IN_0 = "consumer-in-0";
 
-    @Input(MySink.INPUT3)
-    SubscribableChannel input3();
+    @Input(MySink.CONSUMER_IN_0)
+    SubscribableChannel consumerIn0();
 }

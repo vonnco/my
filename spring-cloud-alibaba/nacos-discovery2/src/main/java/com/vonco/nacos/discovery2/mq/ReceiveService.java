@@ -23,8 +23,8 @@ public class ReceiveService {
         System.out.println("test-group2=" + message);
     }
 
-    @StreamListener(value = MySink.INPUT3)
+    @StreamListener(value = MySink.CONSUMER_IN_0)
     public void listener3(String message) {
-        System.out.println("test-group3=" + message);
+        System.out.println("broadcast-consumer=" + message);
     }
 }

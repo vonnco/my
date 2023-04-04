@@ -3,8 +3,13 @@ package com.vonco.demo;
 import com.vonco.demo.domain.TreeVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,5 +65,39 @@ class DemoApplicationTests {
             s = s.substring(s.indexOf("_") + 1);
         }
         System.out.println(s);
+    }
+
+    @Test
+    void Test01(){
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        System.out.println(ip);
+    }
+
+    @Test
+    void Test02(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR,2023);
+        calendar.set(Calendar.MONTH,2);
+        calendar.set(Calendar.DATE,6);
+        Date time = calendar.getTime();
+        Date date = new Date();
+        System.out.println(time);
     }
 }

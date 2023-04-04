@@ -16,17 +16,28 @@ spring:
         binder:
           name-server: 127.0.0.1:9876 # 客户端接入点，必填  rocketMQ的连接地址，binder高度抽象
           group: rocketmq-group # 不加，会报错：Property 'group' is required - producerGroup
+        bindings:
+          producer-out-0:
+            producer:
+              group: output_1
+          producer-out-1:
+            producer:
+              group: output_2
+              messageQueueSelector: orderlyMessageQueueSelector
       # bindings 具体生产消息、消费消息的桥梁
       bindings:
         output1:
           destination: test-topic1
           content-type: text/plain
-        output2:
-          destination: test-topic2
+        producer-out-0:
+          destination: broadcast
+          content-type: text/plain
+        producer-out-1:
+          destination: orderly
           content-type: text/plain
 logging:
   level:
-    com.alibaba.cloud.stream.binder.rocketmq: info
+    com.alibaba.cloud.stream.binder.rocketmq: debug
 # 启动所有监控点（http://localhost:18081/actuator/health）
 management:
   endpoints:

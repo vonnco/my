@@ -1,0 +1,12 @@
+# 端口号
+server:
+  port: 1009
+# 应用名称
+spring:
+  application:
+    name: jwt
+# keytool -genkeypair -alias testkey -keyalg RSA -keysize 2048 -validity 36500 -keypass 123456 -keystore test.keystore -storepass 123456
+jwt:
+  key: testkey
+  ttl: 1800000
+

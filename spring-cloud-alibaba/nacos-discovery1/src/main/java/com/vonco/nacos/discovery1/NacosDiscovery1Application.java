@@ -21,4 +21,6 @@ public class NacosDiscovery1Application {
     public static void main(String[] args) {
         SpringApplication.run(NacosDiscovery1Application.class,args);
     }
+
+    public static final String[] tags = new String[] {"TagA", "TagB", "TagC", "TagD", "TagE"};
 }

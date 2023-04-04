@@ -17,8 +17,8 @@ public interface MySource {
     @Output(MySource.OUTPUT1)
     MessageChannel output1();
 
-    String OUTPUT2 = "output2";
+    String PRODUCER_OUT_0 = "producer-out-0";
 
-    @Output(MySource.OUTPUT2)
-    MessageChannel output2();
+    @Output(MySource.PRODUCER_OUT_0)
+    MessageChannel producerOut0();
 }

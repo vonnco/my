@@ -9,6 +9,8 @@ spring:
         server-addr: 127.0.0.1:8848 # nacos\u670D\u52A1\u5730\u5740
     stream:
       #RocketMQ 通用配置
+      function:
+        definition: consumer;
       rocketmq:
         binder:
           name-server: 127.0.0.1:9876 #客户端接入点，必填  rocketMQ的连接地址，binder高度抽象
@@ -21,6 +23,14 @@ spring:
             consumer:
               orderly: false # 异步
               subscription: tagStr||look # 基于 Tag 订阅，多个 Tag 使用 || 分隔，默认为空
+          consumer-in-0:
+            consumer:
+              messageModel: BROADCASTING
+          consumer-in-1:
+            consumer:
+              subscription: 'TagA || TagC || TagD'
+              push:
+                orderly: true
       #bindings 具体生产消息、消费消息的桥梁
       bindings:
         input1:
@@ -31,10 +41,15 @@ spring:
           destination: test-topic1
           content-type: text/plain
           group: test-group2
-        input3:
-          destination: test-topic2
+          consumer:
+            concurrency: 20 # Consumer 端线程池个数为20
+        consumer-in-0:
+          destination: broadcast
           content-type: text/plain
-          group: test-group3
+          group: broadcast-consumer
+        consumer-in-1:
+          destination: orderly
+          group: orderly-consumer
 feign:
   client:
     config:
@@ -44,4 +59,4 @@ feign:
         readTimeout: 5000 # \u8BFB\u53D6\u8D85\u65F6\u65F6\u95F4
 logging:
   level:
-    com.alibaba.cloud.stream.binder.rocketmq: info
+    com.alibaba.cloud.stream.binder.rocketmq: debug

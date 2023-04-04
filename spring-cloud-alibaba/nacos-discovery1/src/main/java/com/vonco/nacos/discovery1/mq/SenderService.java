@@ -1,5 +1,6 @@
 package com.vonco.nacos.discovery1.mq;
 
+import org.apache.rocketmq.common.message.MessageConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,9 @@ public class SenderService {
         headers.put(MessageConst.PROPERTY_TAGS, "tagStr");
         Message msg = MessageBuilder.createMessage(message, new MessageHeaders(headers));
         boolean send1 = source.output1().send(msg);*/
-        boolean send1 = source.output1().send(MessageBuilder.withPayload(message).build());
+        boolean send1 = source.output1().send(MessageBuilder.withPayload(message).setHeader(MessageConst.PROPERTY_TAGS,"tagStr").build());
         System.out.println("output1 result : " + send1);
-        boolean send2 = source.output2().send(MessageBuilder.withPayload(message).build());
-        System.out.println("output2 result : " + send2);
+        boolean send2 = source.producerOut0().send(MessageBuilder.withPayload(message).build());
+        System.out.println("producerOut0 result : " + send2);
     }
 }
