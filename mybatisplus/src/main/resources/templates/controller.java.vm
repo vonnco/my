@@ -1,0 +1,25 @@
+package ${package.Controller};
+
+import ${package.Service}.I${entity}Service;
+import io.swagger.annotations.Api;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * <p>
+ * ${table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Api(tags = {"${table.comment}"})
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/${table.entityPath}")
+public class ${entity}Controller {
+
+    private final I${entity}Service ${table.entityPath}Service;
+
+}

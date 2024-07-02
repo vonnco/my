@@ -1,0 +1,46 @@
+package ${package.Entity};
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.xt.cloud.common.entity.po.BasePo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * <p>
+ * ${table.comment} 实体类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@TableName("${table.name}")
+@ApiModel(value = "${entity}对象", description = "${table.comment}")
+public class ${entity} extends BasePo {
+
+    private static final long serialVersionUID = 1L;
+
+    #foreach($field in $table.fields)
+        #if(!$field.key && !$field.keyIdentityOrPk &&
+        !($field.columnName.equalsIgnoreCase('created_time') ||
+            $field.columnName.equalsIgnoreCase('updated_time') ||
+            $field.columnName.equalsIgnoreCase('created_by') ||
+            $field.columnName.equalsIgnoreCase('updated_by') ||
+            $field.columnName.equalsIgnoreCase('deleted')))
+    @ApiModelProperty("${field.comment}")
+    private ${field.propertyType} ${field.propertyName};
+
+    #end
+    #end
+    #foreach($field in $table.fields)
+    #if($field.columnName.equalsIgnoreCase('deleted'))
+    @ApiModelProperty("${field.comment}")
+    @TableLogic
+    private ${field.propertyType} ${field.propertyName};
+
+    #end
+    #end
+}
