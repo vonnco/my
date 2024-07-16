@@ -1,0 +1,61 @@
+server:
+  port: 1005
+spring:
+  application:
+    name: shardingsphere
+  main:
+    allow-bean-definition-overriding: true
+  shardingsphere:
+    props:
+      sql:
+        # 打印sql
+        show: true
+    # 数据源配置
+    datasource:
+      # 库名
+      names: db0,db1
+      db0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/db1
+        username: root
+        password: 123456
+      db1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/db2
+        username: root
+        password: 123456
+    # 分库分表配置
+    sharding:
+      # 默认分库策略
+      default-database-strategy:
+        inline:
+          # 表示根据age列进行分库
+          sharding-column: age
+          # 根据age对2的模进行分库，模为0表示db0库，模为1表示db1库
+          algorithm-expression: db$->{age % 2}
+      # 分表
+      tables:
+        # 表名
+        user:
+          # db$->{0..1}可以表示db0、db1两个库；user$->{0..2}表示user0、user1、user2三个表
+          actual-data-nodes: db$->{0..1}.user$->{0..2}
+          # 分表策略
+          table-strategy:
+#            standard:
+#              sharding-column: created_time
+#              precise-algorithm-class-name: com.xt.cloud.environment.config.DeviceShardingAlgorithmConfig
+#              range-algorithm-class-name: com.xt.cloud.environment.config.DeviceShardingAlgorithmConfig
+            inline:
+              # 表示根据id列进行分表
+              sharding-column: id
+              # 根据id对3取模，id%3为0表示分到user0表，id%3为1表示分到user1表，id%3为2表示分到user2表
+              algorithm-expression: user$->{id%3}
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+
+logging:
+  level:
+    org.apache.shardingsphere: DEBUG

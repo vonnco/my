@@ -1,13 +1,17 @@
 package com.vonco.demo;
 
+import com.vonco.demo.handler.CanalClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class DemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
+        CanalClient canalClient = context.getBean(CanalClient.class);
+        canalClient.start();
     }
 
 }

@@ -2,19 +2,25 @@ package com.vonco.demo;
 
 import com.vonco.demo.domain.TreeVo;
 import org.junit.jupiter.api.Test;
+import org.redisson.Redisson;
+import org.redisson.api.RBloomFilter;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @SpringBootTest
 class DemoApplicationTests {
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Test
     void contextLoads() {
@@ -92,12 +98,13 @@ class DemoApplicationTests {
 
     @Test
     void Test02(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,2023);
-        calendar.set(Calendar.MONTH,2);
-        calendar.set(Calendar.DATE,6);
-        Date time = calendar.getTime();
-        Date date = new Date();
-        System.out.println(time);
+        Config config = new Config();
+        config.useSingleServer().setAddress("redis://127.0.0.1:6379").setPassword("123456");
+        RedissonClient redisson = Redisson.create(config);
+        RBloomFilter<String> bloomFilter = redisson.getBloomFilter("nameBloom");
+        bloomFilter.tryInit(100000000L,0.01);
+        bloomFilter.add("vonco");
+        System.out.println(bloomFilter.contains("ce"));
+        System.out.println(bloomFilter.contains("vonco"));
     }
 }

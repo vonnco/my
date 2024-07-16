@@ -66,7 +66,7 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
     public String addDocument(){
         IndexQuery indexQuery = new IndexQuery();
         User user = new User();
-        user.setId(1l);
+        user.setId(1L);
         user.setSex(0);
         user.setName("张三");
         user.setSchool("成都理工学院");
